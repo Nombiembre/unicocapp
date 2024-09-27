@@ -1,15 +1,18 @@
-import { Tabs } from "expo-router";
+import { Link, Tabs } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Info from "../../src/components/common/Info";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerLeft: () => <Link href="cuenta"></Link>,
         headerRight: () => <Info />,
-        headerTitle: "YourBus",
+        headerTitle: "",
         headerTitleAlign: "center",
         tabBarStyle: {
           minHeight: 60,
@@ -27,19 +30,28 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="activity"
+        name="Carnet"
         options={{
-          title: "Balance",
-          tabBarIcon: ({ color, size }) => <Feather name="bar-chart-2" size={size} color={color} />,
+          title: "Carnet",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="id-badge" size={size} color={color} />
+          ),
         }}
       />
 
       <Tabs.Screen
-        name="settings"
+        name="Horario"
         options={{
-          title: "Cuenta",
+          title: "Horario",
+          tabBarIcon: ({ color, size }) => <AntDesign name="calendar" size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="Eventos"
+        options={{
+          title: "Locker",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="user-alt" size={size} color={color} />
+            <MaterialCommunityIcons name="locker" size={size} color={color} />
           ),
         }}
       />

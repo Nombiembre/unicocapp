@@ -1,78 +1,58 @@
-import React, { useEffect, useState } from "react";
-import HomeLayout from "../../src/layouts/HomeLayout";
-import Search from "../../src/sections/home/Search";
-import Rutas from "../../src/sections/home/Rutas";
-import Map from "../../src/components/common/Map";
-import * as Location from "expo-location";
-import { ScrollView, Text, View } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { $userToken } from "../../src/context/userToken";
+import { useStore } from "@nanostores/react";
+import { TouchableOpacity } from "react-native";
+import { UserModel } from "../../src/model/UserModel";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Home() {
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
-
-  let text = "Waiting..";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
-  console.log("###############################################");
-  console.log(text);
-  console.log("###############################################");
-
-  const location2 = {
-    coords: {
-      accuracy: 49.17499923706055,
-      altitude: 2578,
-      altitudeAccuracy: 1,
-      heading: 0,
-      latitude: 4.8773197,
-      longitude: -74.0428127,
-      speed: 0,
-    },
-    mocked: false,
-    timestamp: 1726351654397,
+const Home = () => {
+  const user = useStore($userToken);
+  let userToken;
+  const isLoggedIn = async () => {
+    try {
+      userToken = await AsyncStorage.getItem("userToken");
+      $userToken.set(userToken);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  const history = ["Fontanar", "Centro Chia"];
-  const color = "#64748b";
+  useEffect(() => {
+    isLoggedIn();
+  }, []);
 
+  const data = {
+    _redirectEventId: undefined,
+    apiKey: "AIzaSyBY_cvUwP5tl0gSZWTIAY88z4JsHfWyHfQ",
+    appName: "[DEFAULT]",
+    createdAt: "1727286721122",
+    displayName: undefined,
+    email: "toro@gei.com",
+    emailVerified: false,
+    isAnonymous: false,
+    lastLoginAt: "1727309556035",
+    phoneNumber: undefined,
+    photoURL: undefined,
+    providerData: [[Object]],
+    stsTokenManager: {
+      accessToken:
+        "eyJhbGciOiJSUzI1NiIsImtpZCI6IjZjYzNmY2I2NDAzMjc2MGVlYjljMjZmNzdkNDA3YTY5NGM1MmIwZTMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdW5pY29jYXBwIiwiYXVkIjoidW5pY29jYXBwIiwiYXV0aF90aW1lIjoxNzI3MzA5NjExLCJ1c2VyX2lkIjoib1M5OHlnYzhNZ1RjNzQ1aHhRMDRkUGdwdkxwMSIsInN1YiI6Im9TOTh5Z2M4TWdUYzc0NWh4UTA0ZFBncHZMcDEiLCJpYXQiOjE3MjczMDk2MTEsImV4cCI6MTcyNzMxMzIxMSwiZW1haWwiOiJ0b3JvQGdlaS5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidG9yb0BnZWkuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.Nlf39yCpgMKPLbp5QKsWnLcKhdyK7FQZlwOVoQX17wm4vN7OCAGPZl5P5RTRCBBpiSgWKzftnReht07RemJb-KncIgrv_mIRMri95h2izVJlvnZ53bwhA6ef3IOF9LBNcfnqmnWXxXE8EMDDAhanoBKVvi8E-qDTYIIXWRwyDi2NXmXFCd6oCMDXvLAyva8y824HlO7LJK8mguYvkkSfIA4brHT4ds6klZo0sDF1zdxPr4h-spLianjItjl6iaEycuOw0UNDOd1wFGJidZFNeAVs5Gb9yjCOPH-cC3gnkTe0TzHTawC_waXFZK4qL8u_SJMeb8u4XjH7o7t4d-15FQ",
+      expirationTime: 1727313211664,
+      refreshToken:
+        "AMf-vBxnxca-yfUAUwYXfmx8L-OFZg5WIGYyLyDNKEGFF7yN5CdolvWM1NUJpBEsFnwyw9p876m9vutbYHI4jVaLBCirByThdcZ1zUM8owdSDbbXu0Kk7mQwqOQ2rBaIGCor0uRl7gCqEEbQkgyj4tbhwn2sjqU8OKBkE4q1fQ6gSlmLUqu3tKulGXo_qB1CjF8G0r5nheNk",
+    },
+    tenantId: undefined,
+    uid: "oS98ygc8MgTc745hxQ04dPgpvLp1",
+  };
   return (
-    <HomeLayout>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Search location={location2} />
-        <View
-          className="relative px-4 py-2 border border-slate-200 bg-white rounded-lg my-2"
-          style={{ gap: 6 }}>
-          {history.map((item, index) => {
-            return (
-              <View
-                className={`flex-row items-center ${index !== history.length - 1 && "border-b border-slate-200 pb-2"}`}
-                style={{ gap: 6 }}
-                key={index}>
-                <MaterialIcons name="history" size={20} color={color} />
-                <Text className="text-slate-500 text-base">{item}</Text>
-              </View>
-            );
-          })}
-        </View>
-        <Map location={location2} />
-        <Rutas />
-      </ScrollView>
-    </HomeLayout>
+    <View>
+      <Text>Hola </Text>
+      <TouchableOpacity onPress={() => UserModel.logout()}>
+        <Text>Logout</Text>
+      </TouchableOpacity>
+    </View>
   );
-}
+};
+
+export default Home;

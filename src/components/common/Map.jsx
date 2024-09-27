@@ -5,8 +5,6 @@ import busIcon from "../../assets/Buses/busIcon.png";
 import busIcon2 from "../../assets/Buses/busIcon2.png";
 
 const Map = ({ location, ...props }) => {
-  console.log(location);
-
   const buses = [
     {
       latitude: 4.877,

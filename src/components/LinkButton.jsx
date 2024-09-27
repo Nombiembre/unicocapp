@@ -7,7 +7,7 @@ export default function LinkButton({ class: classes, children, enlace }) {
   return (
     <Link asChild href={enlace}>
       <TouchableOpacity className={`rounded-full py-4 ${classes}`}>
-        <CustomText className="text-white text-center text-base">{children}</CustomText>
+        <CustomText className="text-white text-center text-lg font-bold">{children}</CustomText>
       </TouchableOpacity>
     </Link>
   );

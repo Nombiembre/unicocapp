@@ -15,8 +15,6 @@ export default function Input({
     lightBlue: "#f0f0f0",
   };
 
-  console.log(Object.keys(bgColors));
-
   return (
     <View
       style={{ backgroundColor: bgColor }}

@@ -1,8 +1,8 @@
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import AuthLayout from "../src/layouts/AuthLayout";
 import LinkButton from "../src/components/LinkButton";
 import { Stack } from "expo-router";
-import CustomText from "../src/components/common/CustomText";
+import unicocLogo from "../src/assets/unicocLogo.png";
 
 export default function AuthScreen() {
   return (
@@ -12,17 +12,17 @@ export default function AuthScreen() {
           headerShown: false,
         }}
       />
-      <CustomText
-        className="mx-auto CustomText-white CustomText-6xl"
-        style={{ color: "white", fontSize: 60 }}>
-        YourBus
-      </CustomText>
+      <Image
+        source={unicocLogo}
+        style={{ width: 350, height: 150 }}
+        className="mx-auto object-contain w-full h-full"
+      />
       <View style={{ gap: 12, marginTop: "auto" }}>
-        <LinkButton class="bg-[#1d3466]" enlace="/Login">
+        <LinkButton class="bg-red-500" enlace="/Login">
           Iniciar Sesión
         </LinkButton>
 
-        <LinkButton class="bg-zinc-900" enlace="/Register">
+        <LinkButton class="bg-red-500" enlace="/Register">
           Registrarse
         </LinkButton>
       </View>

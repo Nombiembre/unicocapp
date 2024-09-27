@@ -2,6 +2,8 @@ import { firebaseConfig } from "../../firebase";
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { router } from "expo-router";
+import { $userToken } from "../../src/context/userToken";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -11,7 +13,9 @@ export class UserModel {
     signInWithEmailAndPassword(auth, username, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        router.push("/home");
+        $userToken.set(user);
+        AsyncStorage.setItem("userToken", user);
+        router.replace("/home");
       })
       .catch((error) => {
         alert(error);
@@ -22,14 +26,20 @@ export class UserModel {
     createUserWithEmailAndPassword(auth, username, password)
       .then((userCredential) => {
         const user = userCredential.user.uid;
-        router.push("/home");
+        $userToken.set(user);
+        AsyncStorage.setItem("userToken", user);
+        router.replace("/home");
       })
       .catch((error) => {
         alert(error);
       });
   }
 
-  static logout() {}
+  static logout() {
+    AsyncStorage.removeItem("userToken");
+    $userToken.set("soy nulo");
+    router.replace("/");
+  }
 
   static getUserInfo() {}
 }
