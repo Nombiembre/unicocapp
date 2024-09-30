@@ -4,15 +4,58 @@ import { LinearGradient } from "expo-linear-gradient";
 import chip from "../../assets/Chip.png";
 import profile from "../../assets/profile.jpeg";
 import carnetFondo from "../../assets/fondoCarnet.png";
+import { useStore } from "@nanostores/react";
+import {
+  $userCarrera,
+  $userCedula,
+  $userRol,
+  $userSangre,
+  $userToken,
+} from "../../context/userToken";
 
 const CarnetCard = () => {
+  const user = useStore($userToken);
+  console.log(user);
+  const displayName = user.displayName;
+  const cedula = useStore($userCedula);
+  const carrera = useStore($userCarrera);
+  const sangre = useStore($userSangre);
+  const rol = useStore($userRol);
+
   const info = {
-    nombre: "Jhosep Varón",
-    rol: "Estudiante",
-    identificacion: "CC. 1141314149",
-    carrera: "Ingeniería Sistemas",
-    sangre: "A+",
+    nombre: displayName,
+    rol: rol,
+    identificacion: `CC. ${cedula}`,
+    carrera: carrera,
+    sangre: sangre,
   };
+
+  const eventosInfo = [
+    {
+      costo: "Entrada Libre",
+      titulo: "Festimaratón de baile",
+      fecha: "10/11/2024",
+      hora: "12:00 pm",
+      lugar: "Ciudad Universitaria",
+      organizador: "Direccióon de Bienestar Universitario",
+    },
+    {
+      costo: "Pago",
+      titulo: "Curso Básico de Programación",
+      fecha: "10/11/2024",
+      hora: "12:00 pm",
+      lugar: "Ciudad Universitaria",
+      organizador: "Direccióon de Bienestar Universitario",
+    },
+    {
+      costo: "Entrada Libre",
+      titulo: "Festimaratón de baile",
+      fecha: "10/11/2024",
+      hora: "12:00 pm",
+      lugar: "Ciudad Universitaria",
+      organizador: "Direccióon de Bienestar Universitario",
+    },
+  ];
 
   return (
     <View className="bg-white border border-slate-200 m-4 rounded-3xl overflow-hidden">

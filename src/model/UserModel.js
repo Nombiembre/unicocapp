@@ -1,9 +1,13 @@
 import { firebaseConfig } from "../../firebase";
 import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { router } from "expo-router";
 import { $userToken } from "../../src/context/userToken";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -14,7 +18,6 @@ export class UserModel {
       .then((userCredential) => {
         const user = userCredential.user;
         $userToken.set(user);
-        AsyncStorage.setItem("userToken", user);
         router.replace("/home");
       })
       .catch((error) => {
@@ -22,12 +25,21 @@ export class UserModel {
       });
   }
 
-  static register(username, password) {
+  static register(username, password, displayName) {
     createUserWithEmailAndPassword(auth, username, password)
       .then((userCredential) => {
-        const user = userCredential.user.uid;
+        const user = userCredential.user;
+        updateProfile(user, {
+          displayName: displayName,
+          photoURL: "https://example.com/jane-q-user/profile.jpg",
+        })
+          .then(() => {
+            console.log("Profile updated.");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         $userToken.set(user);
-        AsyncStorage.setItem("userToken", user);
         router.replace("/home");
       })
       .catch((error) => {
@@ -36,7 +48,6 @@ export class UserModel {
   }
 
   static logout() {
-    AsyncStorage.removeItem("userToken");
     $userToken.set("soy nulo");
     router.replace("/");
   }

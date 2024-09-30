@@ -1,11 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 import React from "react";
+import calendarioPng from "../../src/assets/calendario.png";
 
 const Horario = () => {
   return (
-    <View>
-      <Text>Horario</Text>
-    </View>
+    <ScrollView>
+      <Image source={calendarioPng} className="w-full" />
+    </ScrollView>
   );
 };
 
